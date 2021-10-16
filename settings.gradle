@@ -4,3 +4,5 @@ include 'book-api'
 include 'book-customer-service'
 include 'book-customer-domain'
 include 'book-util'
+include 'book-exception'
+
