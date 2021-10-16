@@ -2,7 +2,8 @@ package tr.com.getir.book.exception.constant;
 
 public enum ExceptionCode implements IExceptionCode {
 
-    INTERNAL_ERROR("GB-0000", "Internal error");
+    INTERNAL_ERROR("GB-0000", "Internal error"),
+    CUSTOMER_NOT_FOUND("GB-0001", "Customer not found");
 
     private String code;
     private String message;

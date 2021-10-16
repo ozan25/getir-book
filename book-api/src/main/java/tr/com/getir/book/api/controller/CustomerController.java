@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tr.com.getir.book.customerservice.model.request.CreateCustomerRequest;
-import tr.com.getir.book.customerservice.model.response.CreateCustomerResponse;
-import tr.com.getir.book.customerservice.service.CustomerService;
+import tr.com.getir.book.customerservice.view.request.CreateCustomerRequest;
+import tr.com.getir.book.customerservice.view.response.CreateCustomerResponse;
+import tr.com.getir.book.customerservice.service.impl.CustomerService;
 
 import javax.validation.Valid;
 

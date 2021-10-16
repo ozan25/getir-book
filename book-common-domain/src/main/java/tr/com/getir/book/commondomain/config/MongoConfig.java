@@ -12,7 +12,6 @@ import tr.com.getir.book.commondomain.Auditor;
  */
 @Configuration
 @EnableMongoAuditing
-@EnableMongoRepositories(basePackages = {"tr.com.getir.book.*"})
 public class MongoConfig {
 
     @Bean

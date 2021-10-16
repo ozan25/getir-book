@@ -1,12 +1,14 @@
-package tr.com.getir.book.customerservice.model.request;
+package tr.com.getir.book.customerservice.view.request;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import tr.com.getir.book.customerservice.view.model.AddressDto;
+import tr.com.getir.book.customerservice.view.model.CustomerDto;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,10 +22,8 @@ public class CreateCustomerRequest implements Serializable {
     private static final long serialVersionUID = 5622820067551104653L;
 
     @NotNull
-    @ApiModelProperty(value = "Customer name", dataType = "String", required = true, example = "Ozan")
-    private String name;
+    private CustomerDto customer;
 
-    @NotNull
-    @ApiModelProperty(value = "Customer sur name", dataType = "String", required = true, example = "Yakupoğlu")
-    private String surName;
+    private List<AddressDto> addresses;
+
 }

@@ -7,4 +7,5 @@ include 'book-util'
 include 'book-exception'
 include 'book-exception-handler'
 include 'book-common-domain'
+include 'book-common-service'
 

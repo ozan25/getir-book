@@ -1,4 +1,4 @@
-package tr.com.getir.book.customerservice.model.response;
+package tr.com.getir.book.customerservice.view.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

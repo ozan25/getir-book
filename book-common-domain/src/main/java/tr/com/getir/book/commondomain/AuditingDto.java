@@ -1,37 +1,29 @@
 package tr.com.getir.book.commondomain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
 
-@Getter
-@Setter
-@SuperBuilder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuditingEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class AuditingDto implements Serializable {
 
-    @CreatedBy
+    @Serial
+    private static final long serialVersionUID = 1106311912666582373L;
+
     private String createdBy;
-
-    @CreatedDate
     private Date createdDate;
-
-    @LastModifiedBy
     private String lastModifiedBy;
-
-    @LastModifiedDate
     private Date lastModifiedDate;
 
 }

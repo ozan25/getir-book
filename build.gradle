@@ -8,9 +8,6 @@ sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://artifactory.turkcell.com.tr/artifactory/gradle/"
-    }
 }
 
 subprojects {
@@ -21,10 +18,6 @@ subprojects {
 
     repositories {
         mavenCentral()
-        maven {
-            url "https://artifactory.turkcell.com.tr/artifactory/gradle/"
-        }
-
     }
 
     jar {

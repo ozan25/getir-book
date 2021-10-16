@@ -31,7 +31,7 @@ public class Swagger2Config implements WebMvcConfigurer {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("/getir-book/customer-api/**"))
+                .paths(PathSelectors.ant("/getir-book/*-api/**"))
                 .build().apiInfo(apiInfo());
     }
 
