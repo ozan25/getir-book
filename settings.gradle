@@ -1,3 +1,6 @@
 rootProject.name = 'getir-book'
 include 'book-app'
 include 'book-api'
+include 'book-customer-service'
+include 'book-customer-domain'
+include 'book-util'
