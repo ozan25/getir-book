@@ -12,6 +12,7 @@ public class GetirBookApplication {
 
     public static void main(String[] args) {
         System.out.println("GetirBook application is starting at " + new Date());
+        System.setProperty("ENABLE_JSON_LOGGER","TRUE");
         SpringApplication.run(GetirBookApplication.class, args);
         System.out.println("GetirBook application is started at " + new Date());
     }

@@ -14,12 +14,12 @@ public enum ExceptionCode implements IExceptionCode {
 
     @Override
     public String getCode() {
-        return null;
+        return this.code;
     }
 
     @Override
     public String getMessage() {
-        return null;
+        return this.message;
     }
 
 }

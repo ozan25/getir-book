@@ -8,6 +8,8 @@ import tr.com.getir.book.customerdomain.repository.CustomerRepository;
 import tr.com.getir.book.customerdomain.repository.dao.CustomerDao;
 import tr.com.getir.book.customerservice.model.request.CreateCustomerRequest;
 import tr.com.getir.book.customerservice.model.response.CreateCustomerResponse;
+import tr.com.getir.book.exception.BusinessException;
+import tr.com.getir.book.exception.RequestException;
 
 @Service
 @Slf4j
@@ -24,13 +26,15 @@ public class CustomerService {
     }
 
     public CreateCustomerResponse createCustomer(CreateCustomerRequest request) {
-        Customer customer = new Customer();
+
+        throw new RequestException();
+        /*Customer customer = new Customer();"
         customer.setName(request.getName());
         customer.setSurName(request.getSurName());
         customerDao.insertData(customer);
         CreateCustomerResponse response = new CreateCustomerResponse();
         response.setId(123456l);
-        return response;
+        return response;*/
     }
 
 }

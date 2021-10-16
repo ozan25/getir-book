@@ -30,6 +30,7 @@ dependencies {
 
     implementation project(':book-customer-domain')
     implementation project(':book-util')
+    implementation project(':book-exception')
 }
 
 test {

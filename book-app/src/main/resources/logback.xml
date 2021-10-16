@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="console-logger"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>
+				%d{ISO8601,Europe/Istanbul} [%thread] %level %logger - %mdc %msg %n
+			</pattern>
+		</encoder>
+	</appender>
+	<if condition='property("ENABLE_JSON_LOGGER").contains("TRUE")'>
+		<then>
+			<appender name="json-logger" class="ch.qos.logback.core.rolling.RollingFileAppender">
+				<file>logs/application-json.log</file>
+			    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			      <fileNamePattern>logs/application-json-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			      <maxFileSize>25MB</maxFileSize>
+			      <maxHistory>3</maxHistory>
+			      <totalSizeCap>256MB</totalSizeCap>
+			    </rollingPolicy>
+		        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+		            <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+		                <timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSSX</timestampFormat>
+		                <timestampFormatTimezoneId>Europe/Istanbul</timestampFormatTimezoneId>
+		                <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+		                </jsonFormatter>
+		                <appendLineSeparator>true</appendLineSeparator>
+		            </layout>
+		        </encoder>
+		    </appender>
+		    <appender name="async-json-logger" class="ch.qos.logback.classic.AsyncAppender">
+				<appender-ref ref="json-logger" />
+			</appender>
+		</then>
+	</if>
+	<appender name="async-console-logger" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="console-logger" />
+	</appender>
+	<logger name="org.springframework" level="warn">
+		<if condition='property("ENABLE_JSON_LOGGER").contains("TRUE")'>
+			<then>
+				<appender-ref ref="async-json-logger" />
+			</then>
+			<else>
+				<appender-ref ref="async-console-logger" />
+			</else>
+		</if>
+	</logger>
+	<logger name="org" level="info">
+		<if condition='property("ENABLE_JSON_LOGGER").contains("TRUE")'>
+			<then>
+				<appender-ref ref="async-json-logger" />
+			</then>
+			<else>
+				<appender-ref ref="async-console-logger" />
+			</else>
+		</if>
+	</logger>
+	<logger name="com" level="info">
+		<if condition='property("ENABLE_JSON_LOGGER").contains("TRUE")'>
+			<then>
+				<appender-ref ref="async-json-logger" />
+			</then>
+			<else>
+				<appender-ref ref="async-console-logger" />
+			</else>
+		</if>
+	</logger>
+	<root level="info">
+		<if condition='property("ENABLE_JSON_LOGGER").contains("TRUE")'>
+			<then>
+				<appender-ref ref="async-json-logger" />
+			</then>
+			<else>
+				<appender-ref ref="async-console-logger" />
+			</else>
+		</if>
+	</root>
+</configuration>
