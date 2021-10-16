@@ -1,0 +1,9 @@
+${AnsiColor.BRIGHT_CYAN}                _     _          ${AnsiColor.BRIGHT_WHITE}         ${AnsiColor.BRIGHT_GREEN}   _                       _
+${AnsiColor.BRIGHT_CYAN}  __ _    ___  | |_  (_)  _ __   ${AnsiColor.BRIGHT_WHITE}         ${AnsiColor.BRIGHT_GREEN}  | |__     ___     ___   | | __
+${AnsiColor.BRIGHT_CYAN} / _` |  / _ \ | __| | | | '__|  ${AnsiColor.BRIGHT_WHITE}  _____  ${AnsiColor.BRIGHT_GREEN}  | '_ \   / _ \   / _ \  | |/ /
+${AnsiColor.BRIGHT_CYAN}| (_| | |  __/ | |_  | | | |     ${AnsiColor.BRIGHT_WHITE} |_____| ${AnsiColor.BRIGHT_GREEN}  | |_) | | (_) | | (_) | |   <
+${AnsiColor.BRIGHT_CYAN} \__, |  \___|  \__| |_| |_|     ${AnsiColor.BRIGHT_WHITE}         ${AnsiColor.BRIGHT_GREEN}  |_.__/   \___/   \___/  |_|\_\
+${AnsiColor.BRIGHT_CYAN} |___/                           ${AnsiColor.BRIGHT_WHITE}         ${AnsiColor.BRIGHT_GREEN}
+${AnsiColor.WHITE}
+:: Ozan Emrah Yakupoğlu ::
+:: Running Spring Boot ${spring-boot.version} ::${AnsiColor.DEFAULT}

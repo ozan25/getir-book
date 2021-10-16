@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+}
+
+
+group = 'tr.com.getir.book'
+sourceCompatibility = JavaVersion.VERSION_17
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://artifactory.turkcell.com.tr/artifactory/gradle/"
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    group 'tr.com.getir.book'
+    sourceCompatibility = JavaVersion.VERSION_17
+
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://artifactory.turkcell.com.tr/artifactory/gradle/"
+        }
+
+    }
+
+    jar {
+        enabled = true
+        manifest {
+            attributes 'Implementation-Title': project.name,
+                    'Implementation-Version': project.version,
+                    'Build-Time': java.time.LocalDateTime.now().toString()
+        }
+    }
+    compileJava {
+        options.compilerArgs.addAll('-parameters')
+        options.encoding = "UTF-8"
+    }
+    compileTestJava {
+        options.compilerArgs.addAll('-parameters')
+        options.encoding = "UTF-8"
+    }
+
+}
+

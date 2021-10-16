@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.5.5'
+}
+
+bootJar {
+    archiveFileName = "book-app.jar"
+}
+
+build.dependsOn bootJar
+
+task releaseJar(dependsOn: bootJar ){
+
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter:2.5.5'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor:2.5.5'
+    implementation 'ch.qos.logback.contrib:logback-json-classic:0.1.5'
+    implementation 'ch.qos.logback.contrib:logback-jackson:0.1.5'
+    implementation 'org.codehaus.janino:janino:3.1.6'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools:2.5.5'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.5'
+
+}
+
+test {
+    useJUnitPlatform()
+}
