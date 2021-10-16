@@ -18,12 +18,6 @@ import tr.com.getir.book.util.Util;
 @Slf4j
 public class RestExceptionHandler {
 
-    @ExceptionHandler(BaseException.class)
-    public ResponseEntity<?> baseExceptionHandler(BaseException ex, WebRequest request) {
-        log.info("baseExceptionHandler started");
-        return handle(ex, request, ExceptionType.SYSTEM, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     @ExceptionHandler(SystemException.class)
     public ResponseEntity<?> systemExceptionHandler(SystemException ex, WebRequest request) {
         log.info("systemExceptionHandler started");
@@ -40,6 +34,18 @@ public class RestExceptionHandler {
     public ResponseEntity<?> requestExceptionHandler(RequestException ex, WebRequest request) {
         log.info("requestExceptionHandler started");
         return handle(ex, request, ExceptionType.SYSTEM, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<?> baseExceptionHandler(BaseException ex, WebRequest request) {
+        log.info("baseExceptionHandler started");
+        return handle(ex, request, ExceptionType.SYSTEM, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(Throwable.class)
+    public ResponseEntity<?> throwableHandler(Throwable ex, WebRequest request) {
+        log.info("throwableExceptionHandler started");
+        return handle(new SystemException(), request, ExceptionType.SYSTEM, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     protected ResponseEntity<Object> handle(BaseException e, WebRequest request, ExceptionType exceptionType,

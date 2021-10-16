@@ -27,14 +27,13 @@ public class CustomerService {
 
     public CreateCustomerResponse createCustomer(CreateCustomerRequest request) {
 
-        throw new RequestException();
-        /*Customer customer = new Customer();"
+        Customer customer = new Customer();
         customer.setName(request.getName());
         customer.setSurName(request.getSurName());
         customerDao.insertData(customer);
         CreateCustomerResponse response = new CreateCustomerResponse();
         response.setId(123456l);
-        return response;*/
+        return response;
     }
 
 }

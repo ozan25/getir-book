@@ -36,6 +36,26 @@
 	<appender name="async-console-logger" class="ch.qos.logback.classic.AsyncAppender">
 		<appender-ref ref="console-logger" />
 	</appender>
+	<logger name="org.apache" level="warn">
+		<if condition='property("ENABLE_JSON_LOGGER").contains("TRUE")'>
+			<then>
+				<appender-ref ref="async-json-logger" />
+			</then>
+			<else>
+				<appender-ref ref="async-console-logger" />
+			</else>
+		</if>
+	</logger>
+	<logger name="org.mongodb" level="warn">
+		<if condition='property("ENABLE_JSON_LOGGER").contains("TRUE")'>
+			<then>
+				<appender-ref ref="async-json-logger" />
+			</then>
+			<else>
+				<appender-ref ref="async-console-logger" />
+			</else>
+		</if>
+	</logger>
 	<logger name="org.springframework" level="warn">
 		<if condition='property("ENABLE_JSON_LOGGER").contains("TRUE")'>
 			<then>
@@ -66,7 +86,7 @@
 			</else>
 		</if>
 	</logger>
-	<root level="info">
+	<root level="debug">
 		<if condition='property("ENABLE_JSON_LOGGER").contains("TRUE")'>
 			<then>
 				<appender-ref ref="async-json-logger" />
