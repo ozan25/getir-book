@@ -29,6 +29,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.5'
 
     implementation project(':book-customer-domain')
+    implementation project(':book-common-domain')
     implementation project(':book-util')
     implementation project(':book-exception')
 }

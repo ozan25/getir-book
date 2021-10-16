@@ -23,6 +23,7 @@ public class BookFilter implements Filter {
         try {
             Long transactionId = Math.abs(UUID.randomUUID().getMostSignificantBits());
             RequestContext.setTransactionId(transactionId);
+            RequestContext.setUserMachine(request.getRemoteAddr());
             MDC.put("transactionId", String.valueOf(transactionId));
             chain.doFilter(request, response);
         } catch (Throwable t) {

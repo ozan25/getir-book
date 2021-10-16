@@ -6,4 +6,5 @@ include 'book-customer-domain'
 include 'book-util'
 include 'book-exception'
 include 'book-exception-handler'
+include 'book-common-domain'
 

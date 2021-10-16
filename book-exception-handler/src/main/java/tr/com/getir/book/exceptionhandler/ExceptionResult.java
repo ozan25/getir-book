@@ -21,4 +21,5 @@ public class ExceptionResult implements Serializable {
     private ExceptionType exceptionType;
     private String httpStatusCode;
     private String httpStatusMessage;
+    private Long transactionId;
 }

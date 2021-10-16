@@ -3,22 +3,22 @@ package tr.com.getir.book.util;
 import java.util.Locale;
 
 public class RequestContext {
-    private static final ThreadLocal<String> usernameTl = new ThreadLocal<>();
+    private static final ThreadLocal<String> userMachineTl = new ThreadLocal<>();
     private static final ThreadLocal<Long> transactionIdTl = new ThreadLocal<>();
 
     private RequestContext() {
     }
 
-    public static String getUsername() {
-        return usernameTl.get();
+    public static String getUserMachine() {
+        return userMachineTl.get();
     }
 
-    public static void setUsername(String username) {
-        usernameTl.set(username);
+    public static void setUserMachine(String userMachine) {
+        userMachineTl.set(userMachine);
     }
 
-    public static void removeUsername() {
-        usernameTl.remove();
+    public static void removeUserMachine() {
+        userMachineTl.remove();
     }
 
     public static Long getTransactionId() {

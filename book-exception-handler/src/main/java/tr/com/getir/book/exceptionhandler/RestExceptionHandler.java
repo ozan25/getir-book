@@ -12,6 +12,7 @@ import tr.com.getir.book.exception.RequestException;
 import tr.com.getir.book.exception.SystemException;
 import tr.com.getir.book.exception.base.BaseException;
 import tr.com.getir.book.exception.constant.ExceptionType;
+import tr.com.getir.book.util.RequestContext;
 import tr.com.getir.book.util.Util;
 
 @RestControllerAdvice
@@ -67,6 +68,7 @@ public class RestExceptionHandler {
                 exceptionResult.setHttpStatusMessage(httpStatus.name());
             }
             exceptionResult.setExceptionType(e.getExceptionType());
+            exceptionResult.setTransactionId(RequestContext.getTransactionId());
             response = new ResponseEntity(exceptionResult, httpStatus);
         } finally {
             MDC.remove("exceptionCode");

@@ -1,4 +1,4 @@
-package tr.com.getir.book.customerdomain.entity.base;
+package tr.com.getir.book.commondomain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +10,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -20,20 +19,18 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuditingEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	@Size(min = 1, max = 200)
-	@CreatedBy
-	private String createdBy;
-	
-	@CreatedDate
-	private Instant createdDate;
-	
-	@Size(max = 200)
-	@LastModifiedBy
-	private String lastModifiedBy;
-	
-	@LastModifiedDate
-	private Instant lastModifiedDate;
-	
+    private static final long serialVersionUID = 1L;
+
+    @CreatedBy
+    private String createdBy;
+
+    @CreatedDate
+    private Instant createdDate;
+
+    @LastModifiedBy
+    private String lastModifiedBy;
+
+    @LastModifiedDate
+    private Instant lastModifiedDate;
+
 }
