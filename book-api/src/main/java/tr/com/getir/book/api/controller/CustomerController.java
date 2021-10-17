@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tr.com.getir.book.customerservice.service.IAddressService;
 import tr.com.getir.book.customerservice.service.impl.CustomerService;
-import tr.com.getir.book.customerservice.view.request.CreateCustomerRequest;
-import tr.com.getir.book.customerservice.view.request.DeleteCustomerRequest;
-import tr.com.getir.book.customerservice.view.request.GetCustomerRequest;
-import tr.com.getir.book.customerservice.view.request.UpdateCustomerRequest;
+import tr.com.getir.book.customerservice.view.request.*;
 import tr.com.getir.book.customerservice.view.response.*;
 
 import javax.validation.Valid;
@@ -25,6 +23,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private IAddressService addressService;
 
     @PostMapping(value = "/create-customer", produces = "application/json", consumes = "application/json")
     @ApiOperation(value = "Create customer", httpMethod = "POST", response = CreateCustomerResponse.class)
@@ -67,6 +68,42 @@ public class CustomerController {
     public ResponseEntity<GetAllCustomersResponse> getallCustomers() {
         GetAllCustomersResponse response = customerService.getAllCustomers();
         return new ResponseEntity<GetAllCustomersResponse>(response, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/create-address", produces = "application/json", consumes = "application/json")
+    @ApiOperation(value = "Create address", httpMethod = "POST", response = CreateAddressResponse.class)
+    public ResponseEntity<CreateAddressResponse> createAddress(
+            @Valid @RequestBody @ApiParam(required = true, value = "Wrapped input fields for create address service")
+                    CreateAddressRequest request) {
+        CreateAddressResponse response = addressService.createAddress(request);
+        return new ResponseEntity<CreateAddressResponse>(response, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/update-address", produces = "application/json", consumes = "application/json")
+    @ApiOperation(value = "Update address", httpMethod = "POST", response = UpdateAddressResponse.class)
+    public ResponseEntity<UpdateAddressResponse> updateAddress(
+            @Valid @RequestBody @ApiParam(required = true, value = "Wrapped input fields for update address service")
+                    UpdateAddressRequest request) {
+        UpdateAddressResponse response = addressService.updateAddress(request);
+        return new ResponseEntity<UpdateAddressResponse>(response, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/delete-address", produces = "application/json", consumes = "application/json")
+    @ApiOperation(value = "Delete address", httpMethod = "POST", response = DeleteAddressResponse.class)
+    public ResponseEntity<DeleteAddressResponse> deleteAddress(
+            @Valid @RequestBody @ApiParam(required = true, value = "Wrapped input fields for delete address service")
+                    DeleteAddressRequest request) {
+        DeleteAddressResponse response = addressService.deleteAddress(request);
+        return new ResponseEntity<DeleteAddressResponse>(response, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/get-addresses", produces = "application/json", consumes = "application/json")
+    @ApiOperation(value = "Get addresses", httpMethod = "POST", response = GetAddressesResponse.class)
+    public ResponseEntity<GetAddressesResponse> getAddress(
+            @Valid @RequestBody @ApiParam(required = true, value = "Wrapped input fields for get addresses service")
+                    GetAddressesRequest request) {
+        GetAddressesResponse response = addressService.getAddresses(request);
+        return new ResponseEntity<GetAddressesResponse>(response, HttpStatus.OK);
     }
 
 }

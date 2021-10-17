@@ -18,6 +18,4 @@ public class DeleteCustomerResponse implements Serializable {
     @Serial
     private static final long serialVersionUID = -1586407137454252223L;
 
-    @ApiModelProperty(value = "Id", dataType = "String", example = "123456")
-    private String id;
 }

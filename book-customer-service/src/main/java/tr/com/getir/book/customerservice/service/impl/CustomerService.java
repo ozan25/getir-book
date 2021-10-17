@@ -7,16 +7,13 @@ import tr.com.getir.book.customerdomain.entity.Address;
 import tr.com.getir.book.customerdomain.entity.Customer;
 import tr.com.getir.book.customerdomain.repository.AddressRepository;
 import tr.com.getir.book.customerdomain.repository.CustomerRepository;
-import tr.com.getir.book.customerdomain.repository.dao.AddressDao;
-import tr.com.getir.book.customerdomain.repository.dao.CustomerDao;
 import tr.com.getir.book.customerservice.converter.CustomerConverter;
 import tr.com.getir.book.customerservice.service.IAddressService;
 import tr.com.getir.book.customerservice.service.ICustomerService;
-import tr.com.getir.book.customerservice.view.model.AddressDto;
+import tr.com.getir.book.customerservice.validation.ICustomerValidation;
 import tr.com.getir.book.customerservice.view.request.*;
 import tr.com.getir.book.customerservice.view.response.*;
 import tr.com.getir.book.exception.BusinessException;
-import tr.com.getir.book.exception.RequestException;
 import tr.com.getir.book.exception.constant.ExceptionCode;
 import tr.com.getir.book.util.Util;
 
@@ -27,16 +24,13 @@ import java.util.List;
 public class CustomerService implements ICustomerService {
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private CustomerRepository repository;
 
     @Autowired
-    private CustomerDao customerDao;
+    private CustomerConverter converter;
 
     @Autowired
-    private AddressDao addressDao;
-
-    @Autowired
-    private CustomerConverter customerConverter;
+    private ICustomerValidation validation;
 
     @Autowired
     private AddressRepository addressRepository;
@@ -46,70 +40,51 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public CreateCustomerResponse createCustomer(CreateCustomerRequest request) {
-        Customer customer = customerConverter.toEntity(request.getCustomer());
-        customerDao.insert(customer);
+        validation.validateCustomer(request.getCustomer());
+        Customer customer = converter.toEntity(request.getCustomer());
+        repository.save(customer);
         if (Util.isNotEmpty(request.getAddresses())) {
-            for (AddressDto addressDto : request.getAddresses()) {
-                addressService.createAddress(new CreateAddressRequest(customer.getId(), addressDto));
-            }
+            request.getAddresses().stream()
+                    .forEach(addressDto -> addressService.createAddress(
+                            new CreateAddressRequest(customer.getId(), addressDto)));
         }
-        CreateCustomerResponse response = new CreateCustomerResponse();
-        response.setCustomer(customerConverter.toDto(customer));
-        return response;
+        return new CreateCustomerResponse(converter.toDto(customer));
     }
 
     @Override
     public UpdateCustomerResponse updateCustomer(UpdateCustomerRequest request) {
-        if (Util.isEmpty(request.getCustomer().getId())) {
-            throw new RequestException(ExceptionCode.CUSTOMER_ID_NOT_FOUND);
-        }
-        Customer originalCustomer = customerRepository.findById(request.getCustomer().getId()).orElse(null);
-        if (Util.isEmpty(originalCustomer)) {
-            throw new BusinessException(ExceptionCode.CUSTOMER_NOT_FOUND);
-        }
-        Customer customer = customerConverter.toEntity(request.getCustomer());
-        customerDao.update(customer);
-        UpdateCustomerResponse response = new UpdateCustomerResponse();
-        response.setCustomer(customerConverter.toDto(customer));
-        return response;
+        validation.validateCustomer(request.getCustomer().getId());
+        Customer customer = converter.toEntity(request.getCustomer());
+        repository.save(customer);
+        return new UpdateCustomerResponse(converter.toDto(customer));
     }
 
     @Override
     public DeleteCustomerResponse deleteCustomer(DeleteCustomerRequest request) {
-        Customer customer = customerRepository.findById(request.getCustomerId()).orElse(null);
-        if (Util.isEmpty(customer)) {
-            throw new BusinessException(ExceptionCode.CUSTOMER_NOT_FOUND);
-        }
-        List<Address> addresses = addressRepository.findByCustomerId(customer.getId()).orElse(null);
+        Customer customer = validation.validateCustomer(request.getCustomerId());
+        List<Address> addresses = addressRepository.findByCustomerId(request.getCustomerId()).orElse(null);
         if (Util.isNotEmpty(addresses)) {
-            for (Address address : addresses) {
-                addressService.deleteAddress(new DeleteAddressRequest(address.getId()));
-            }
+            addresses.stream()
+                    .forEach(address -> addressService.deleteAddress(
+                            new DeleteAddressRequest(address.getId())));
         }
-        customerDao.delete(customer);
+        repository.delete(customer);
         return new DeleteCustomerResponse();
     }
 
     @Override
     public GetCustomerResponse getCustomer(GetCustomerRequest request) {
-        Customer customer = customerRepository.findById(request.getCustomerId()).orElse(null);
-        if (Util.isEmpty(customer)) {
-            throw new BusinessException(ExceptionCode.CUSTOMER_NOT_FOUND);
-        }
-        GetCustomerResponse response = new GetCustomerResponse();
-        response.setCustomerDto(customerConverter.toDto(customer));
-        return response;
+        Customer customer = validation.validateCustomer(request.getCustomerId());
+        return new GetCustomerResponse(converter.toDto(customer));
     }
 
     @Override
     public GetAllCustomersResponse getAllCustomers() {
-        List<Customer> customers = customerRepository.findAll();
-        if(Util.isEmpty(customers)){
+        List<Customer> customers = repository.findAll();
+        if (Util.isEmpty(customers)) {
             throw new BusinessException(ExceptionCode.CUSTOMER_NOT_FOUND);
         }
-        GetAllCustomersResponse response = new GetAllCustomersResponse();
-        response.setCustomers(customerConverter.toDtoList(customers));
-        return response;
+        return new GetAllCustomersResponse(converter.toDtoList(customers));
     }
 
 }
