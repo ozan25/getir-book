@@ -16,7 +16,8 @@ public enum ExceptionCode implements IExceptionCode {
     ORDER_CAN_NOT_BE_CANCELED("GB-0011", "The order can not be canceled"),
     ORDER_DETAILS_NOT_FOUND("GB-0012", "Order details not found"),
     STOCK_ID_NOT_FOUND("GB-0013", "Stock id not found"),
-    ORDER_CAN_NOT_BE_COMPLETED("GB-0014", "The order can not be completed");
+    ORDER_CAN_NOT_BE_COMPLETED("GB-0014", "The order can not be completed"),
+    INVALID_REQUEST("GB-0015", "Invalid request");
 
     private String code;
     private String message;

@@ -18,15 +18,16 @@ import tr.com.getir.book.orderservice.converter.OrderDetailConverter;
 import tr.com.getir.book.orderservice.service.IOrderService;
 import tr.com.getir.book.orderservice.validation.IOrderDetailValidation;
 import tr.com.getir.book.orderservice.validation.IOrderValidation;
+import tr.com.getir.book.orderservice.validation.impl.OrderValidation;
 import tr.com.getir.book.orderservice.view.model.OrderDetailDto;
 import tr.com.getir.book.orderservice.view.model.OrderView;
 import tr.com.getir.book.orderservice.view.request.*;
 import tr.com.getir.book.orderservice.view.response.*;
-import tr.com.getir.book.productservice.data.IStockDataService;
 import tr.com.getir.book.productservice.service.IStockService;
 import tr.com.getir.book.productservice.view.request.DeliveryToWarehouseRequest;
 import tr.com.getir.book.productservice.view.request.UpdateDeliveryStockRequest;
 import tr.com.getir.book.productservice.view.request.WarehouseToDeliveryRequest;
+import tr.com.getir.book.util.DateUtil;
 import tr.com.getir.book.util.Util;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class OrderService implements IOrderService {
     private OrderRepository repository;
 
     @Autowired
-    private IOrderValidation validation;
+    private OrderValidation validation;
 
     @Autowired
     private OrderDetailRepository detailRepository;
@@ -156,6 +157,7 @@ public class OrderService implements IOrderService {
             orderDetail.setOrderId(orderId);
             orderDetail.setProductId(orderDetailDto.getProductId());
             orderDetail.setNumberOfProduct(orderDetailDto.getNumberOfProduct());
+            orderDetail.setTotalPrice(orderDetailDto.getTotalPrice());
             orderDetails.add(orderDetail);
         }
         detailRepository.saveAll(orderDetails);

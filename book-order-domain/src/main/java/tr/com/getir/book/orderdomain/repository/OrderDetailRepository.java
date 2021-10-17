@@ -14,6 +14,6 @@ public interface OrderDetailRepository extends MongoRepository<OrderDetail, Stri
 
     Optional<OrderDetail> findById(String id);
 
-    Optional<List<OrderDetail>> findByOrderId(String customerId);
+    Optional<List<OrderDetail>> findByOrderId(String orderId);
 
 }

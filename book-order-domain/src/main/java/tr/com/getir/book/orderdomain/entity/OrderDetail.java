@@ -5,6 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import tr.com.getir.book.commondomain.AuditingEntity;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,5 +20,6 @@ public class OrderDetail extends AuditingEntity {
     private String orderId;
     private String productId;
     private Long numberOfProduct;
+    private BigDecimal totalPrice;
 
 }

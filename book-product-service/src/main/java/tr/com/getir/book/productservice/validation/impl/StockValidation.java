@@ -2,7 +2,7 @@ package tr.com.getir.book.productservice.validation.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import tr.com.getir.book.exception.RequestException;
+import tr.com.getir.book.exception.BusinessException;
 import tr.com.getir.book.exception.constant.ExceptionCode;
 import tr.com.getir.book.productdomain.entity.Stock;
 import tr.com.getir.book.productdomain.repository.StockRepository;
@@ -18,7 +18,7 @@ public class StockValidation implements IStockValidation {
     @Override
     public Stock validateStock(Stock stock) {
         if (Util.isEmpty(stock)) {
-            throw new RequestException(ExceptionCode.STOCK_NOT_FOUND);
+            throw new BusinessException(ExceptionCode.STOCK_NOT_FOUND);
         }
         return stock;
     }

@@ -2,6 +2,7 @@ package tr.com.getir.book.orderservice.validation.impl;
 
 import org.springframework.stereotype.Component;
 import tr.com.getir.book.exception.BusinessException;
+import tr.com.getir.book.exception.RequestException;
 import tr.com.getir.book.exception.constant.ExceptionCode;
 import tr.com.getir.book.orderdomain.entity.OrderDetail;
 import tr.com.getir.book.orderservice.validation.IOrderDetailValidation;
@@ -24,7 +25,7 @@ public class OrderDetailValidation implements IOrderDetailValidation {
     @Override
     public List<OrderDetailDto> validatioOrderDetailDtoList(List<OrderDetailDto> orderDetails) {
         if (Util.isEmpty(orderDetails)) {
-            throw new BusinessException(ExceptionCode.ORDER_DETAILS_NOT_FOUND);
+            throw new RequestException(ExceptionCode.ORDER_DETAILS_NOT_FOUND);
         }
         return orderDetails;
     }

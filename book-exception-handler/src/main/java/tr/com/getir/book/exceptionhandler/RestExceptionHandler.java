@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -11,6 +12,7 @@ import tr.com.getir.book.exception.BusinessException;
 import tr.com.getir.book.exception.RequestException;
 import tr.com.getir.book.exception.SystemException;
 import tr.com.getir.book.exception.base.BaseException;
+import tr.com.getir.book.exception.constant.ExceptionCode;
 import tr.com.getir.book.exception.constant.ExceptionType;
 import tr.com.getir.book.util.RequestContext;
 import tr.com.getir.book.util.Util;
@@ -41,6 +43,12 @@ public class RestExceptionHandler {
     public ResponseEntity<?> baseExceptionHandler(BaseException ex, WebRequest request) {
         log.info("baseExceptionHandler started");
         return handle(ex, request, ExceptionType.SYSTEM, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex, WebRequest request) {
+        log.info("MethodArgumentNotValidExceptionHandler started");
+        return handle(new RequestException(ExceptionCode.INVALID_REQUEST), request, ExceptionType.REQUEST, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Throwable.class)

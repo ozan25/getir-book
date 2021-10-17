@@ -7,6 +7,7 @@ import tr.com.getir.book.commondomain.AuditingDto;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serial;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -33,4 +34,8 @@ public class OrderDetailDto extends AuditingDto {
     @NotNull
     @ApiModelProperty(value = "Number of product", dataType = "Long")
     private Long numberOfProduct;
+
+    @NotNull
+    @ApiModelProperty(value = "total price", dataType = "BigDecimal")
+    private BigDecimal totalPrice;
 }
