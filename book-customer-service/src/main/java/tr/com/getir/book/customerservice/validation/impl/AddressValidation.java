@@ -15,14 +15,14 @@ import tr.com.getir.book.util.Util;
 public class AddressValidation implements IAddressValidation {
 
     @Autowired
-    private AddressRepository addressRepository;
+    private AddressRepository repository;
 
     @Override
     public Address validateAddress(String addressId) {
         if (Util.isEmpty(addressId)) {
             throw new RequestException(ExceptionCode.ADDRESS_ID_NOT_FOUND);
         }
-        Address address = addressRepository.findById(addressId).orElse(null);
+        Address address = repository.findById(addressId).orElse(null);
         if (Util.isEmpty(address)) {
             throw new BusinessException(ExceptionCode.ADDRESS_NOT_FOUND);
         }

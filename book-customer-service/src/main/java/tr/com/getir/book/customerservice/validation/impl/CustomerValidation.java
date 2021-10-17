@@ -15,14 +15,14 @@ import tr.com.getir.book.util.Util;
 public class CustomerValidation implements ICustomerValidation {
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private CustomerRepository repository;
 
     @Override
     public Customer validateCustomer(String customerId) {
         if (Util.isEmpty(customerId)) {
             throw new RequestException(ExceptionCode.CUSTOMER_NOT_FOUND);
         }
-        Customer customer = customerRepository.findById(customerId).orElse(null);
+        Customer customer = repository.findById(customerId).orElse(null);
         if (Util.isEmpty(customer)) {
             throw new BusinessException(ExceptionCode.CUSTOMER_NOT_FOUND);
         }

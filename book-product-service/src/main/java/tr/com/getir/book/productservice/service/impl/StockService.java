@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tr.com.getir.book.exception.BusinessException;
 import tr.com.getir.book.exception.constant.ExceptionCode;
-import tr.com.getir.book.productdomain.entity.Product;
 import tr.com.getir.book.productdomain.entity.Stock;
 import tr.com.getir.book.productdomain.repository.ProductRepository;
 import tr.com.getir.book.productdomain.repository.StockRepository;
-import tr.com.getir.book.productdomain.repository.dao.IStockDao;
 import tr.com.getir.book.productservice.converter.StockConverter;
 import tr.com.getir.book.productservice.service.IStockService;
+import tr.com.getir.book.productservice.validation.IProductValidation;
+import tr.com.getir.book.productservice.validation.IStockValidation;
 import tr.com.getir.book.productservice.view.request.AddStockRequest;
 import tr.com.getir.book.productservice.view.request.GetStockRequest;
 import tr.com.getir.book.productservice.view.request.WarehouseToDeliveryRequest;
@@ -28,65 +28,54 @@ import java.util.List;
 public class StockService implements IStockService {
 
     @Autowired
-    private StockConverter stockConverter;
+    private StockConverter converter;
 
     @Autowired
-    private StockRepository stockRepository;
+    private StockRepository repository;
 
     @Autowired
-    private IStockDao stockDao;
+    private IStockValidation validation;
 
     @Autowired
-    private ProductRepository productRepository;
+    private IProductValidation productValidation;
 
     @Override
     public AddStockResponse addStock(AddStockRequest request) {
-        Product product = productRepository.findById(request.getProductId()).orElse(null);
-        if (Util.isEmpty(product)) {
-            throw new BusinessException(ExceptionCode.PRODUCT_NOT_FOUND);
-        }
-        Stock stock = stockRepository.findByProductId(product.getId()).orElse(null);
+        productValidation.validateProduct(request.getProductId());
+        Stock stock = repository.findByProductId(request.getProductId()).orElse(null);
         if (Util.isEmpty(stock)) {
             stock = new Stock();
             stock.setInWarehouseCount(request.getNumberOfProduct());
-            stock.setProductId(product.getId());
-            stockDao.insert(stock);
+            stock.setProductId(request.getProductId());
+            repository.save(stock);
         } else {
             Long currentStockNumber = stock.getInWarehouseCount() != null ? stock.getInWarehouseCount() : 0l;
             stock.setInWarehouseCount(currentStockNumber + request.getNumberOfProduct());
-            stockDao.update(stock);
+            repository.save(stock);
         }
-        AddStockResponse response = new AddStockResponse();
-        response.setStock(stockConverter.toDto(stock));
-        return response;
-
+        return new AddStockResponse(converter.toDto(stock));
     }
 
     @Override
     public GetStockResponse getStock(GetStockRequest request) {
-        Stock stock = stockRepository.findByProductId(request.getProductId()).orElse(null);
-        if (Util.isEmpty(stock)) {
-            throw new BusinessException(ExceptionCode.STOCK_NOT_FOUND);
-        }
-        return new GetStockResponse(stockConverter.toDto(stock));
+        Stock stock = repository.findByProductId(request.getProductId()).orElse(null);
+        validation.validateStock(stock);
+        return new GetStockResponse(converter.toDto(stock));
     }
 
     @Override
     public GetAllStocksResponse getAllStocks() {
-        List<Stock> stocks = stockRepository.findAll();
+        List<Stock> stocks = repository.findAll();
         if (Util.isEmpty(stocks)) {
             throw new BusinessException(ExceptionCode.STOCK_NOT_FOUND);
         }
-        return new GetAllStocksResponse(stockConverter.toDtoList(stocks));
+        return new GetAllStocksResponse(converter.toDtoList(stocks));
     }
 
     @Override
     public WarehouseToDeliveryResponse warehouseToDelivery(WarehouseToDeliveryRequest request) {
-        Product product = productRepository.findById(request.getProductId()).orElse(null);
-        if (Util.isEmpty(product)) {
-            throw new BusinessException(ExceptionCode.PRODUCT_NOT_FOUND);
-        }
-        Stock stock = stockRepository.findByProductId(product.getId()).orElse(null);
+        productValidation.validateProduct(request.getProductId());
+        Stock stock = repository.findByProductId(request.getProductId()).orElse(null);
         if (Util.isEmpty(stock) || Util.isEmpty(stock.getInWarehouseCount())) {
             throw new BusinessException(ExceptionCode.STOCK_NOT_FOUND);
         }
@@ -95,7 +84,7 @@ public class StockService implements IStockService {
         }
         stock.setInWarehouseCount(stock.getInWarehouseCount() - request.getNumberOfProducts());
         stock.setOnDeliveryCount(stock.getOnDeliveryCount() + request.getNumberOfProducts());
-        stockDao.update(stock);
-        return new WarehouseToDeliveryResponse(stockConverter.toDto(stock));
+        repository.save(stock);
+        return new WarehouseToDeliveryResponse(converter.toDto(stock));
     }
 }
