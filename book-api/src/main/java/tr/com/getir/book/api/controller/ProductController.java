@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tr.com.getir.book.productservice.service.impl.ProductService;
-import tr.com.getir.book.productservice.view.request.CreateProductRequest;
-import tr.com.getir.book.productservice.view.request.DeleteProductRequest;
-import tr.com.getir.book.productservice.view.request.GetProductRequest;
-import tr.com.getir.book.productservice.view.request.UpdateProductRequest;
+import tr.com.getir.book.productservice.service.IProductService;
+import tr.com.getir.book.productservice.service.IStockService;
+import tr.com.getir.book.productservice.view.request.*;
 import tr.com.getir.book.productservice.view.response.*;
 
 import javax.validation.Valid;
@@ -24,15 +22,17 @@ import javax.validation.Valid;
 public class ProductController {
 
     @Autowired
-    private ProductService productService;
+    private IProductService productService;
+
+    @Autowired
+    private IStockService stockService;
 
     @PostMapping(value = "/create-product", produces = "application/json", consumes = "application/json")
     @ApiOperation(value = "Create product", httpMethod = "POST", response = CreateProductResponse.class)
     public ResponseEntity<CreateProductResponse> createProduct(
             @Valid @RequestBody @ApiParam(required = true, value = "Wrapped input fields for create product service")
                     CreateProductRequest request) {
-        CreateProductResponse response = productService.createProduct(request);
-        return new ResponseEntity<CreateProductResponse>(response, HttpStatus.OK);
+        return new ResponseEntity<>(productService.createProduct(request), HttpStatus.OK);
     }
 
     @PostMapping(value = "/update-product", produces = "application/json", consumes = "application/json")
@@ -40,8 +40,7 @@ public class ProductController {
     public ResponseEntity<UpdateProductResponse> updateProduct(
             @Valid @RequestBody @ApiParam(required = true, value = "Wrapped input fields for update product service")
                     UpdateProductRequest request) {
-        UpdateProductResponse response = productService.updateProduct(request);
-        return new ResponseEntity<UpdateProductResponse>(response, HttpStatus.OK);
+        return new ResponseEntity<>(productService.updateProduct(request), HttpStatus.OK);
     }
 
     @PostMapping(value = "/delete-product", produces = "application/json", consumes = "application/json")
@@ -49,24 +48,43 @@ public class ProductController {
     public ResponseEntity<DeleteProductResponse> deleteProduct(
             @Valid @RequestBody @ApiParam(required = true, value = "Wrapped input fields for delete product service")
                     DeleteProductRequest request) {
-        DeleteProductResponse response = productService.deleteProduct(request);
-        return new ResponseEntity<DeleteProductResponse>(response, HttpStatus.OK);
+        return new ResponseEntity<>(productService.deleteProduct(request), HttpStatus.OK);
     }
 
     @PostMapping(value = "/get-product", produces = "application/json", consumes = "application/json")
-    @ApiOperation(value = "Get product", httpMethod = "POST", response = String.class)
+    @ApiOperation(value = "Get product", httpMethod = "POST", response = GetProductResponse.class)
     public ResponseEntity<GetProductResponse> getProduct(
             @Valid @RequestBody @ApiParam(required = true, value = "Wrapped input fields for get product service")
                     GetProductRequest request) {
-        GetProductResponse response = productService.getProduct(request);
-        return new ResponseEntity<GetProductResponse>(response, HttpStatus.OK);
+        return new ResponseEntity<>(productService.getProduct(request), HttpStatus.OK);
     }
 
     @GetMapping(value = "/get-all-products")
     @ApiOperation(value = "Get all products", httpMethod = "GET", response = GetAllProductsResponse.class)
     public ResponseEntity<GetAllProductsResponse> getallProducts() {
-        GetAllProductsResponse response = productService.getAllProducts();
-        return new ResponseEntity<GetAllProductsResponse>(response, HttpStatus.OK);
+        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/add-stock", produces = "application/json", consumes = "application/json")
+    @ApiOperation(value = "Add stock", httpMethod = "POST", response = AddStockResponse.class)
+    public ResponseEntity<AddStockResponse> addStock(
+            @Valid @RequestBody @ApiParam(required = true, value = "Wrapped input fields for add stock service")
+                    AddStockRequest request) {
+        return new ResponseEntity<>(stockService.addStock(request), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/get-stock", produces = "application/json", consumes = "application/json")
+    @ApiOperation(value = "Get stock", httpMethod = "POST", response = AddStockResponse.class)
+    public ResponseEntity<GetStockResponse> getStock(
+            @Valid @RequestBody @ApiParam(required = true, value = "Wrapped input fields for get stock service")
+                    GetStockRequest request) {
+        return new ResponseEntity<>(stockService.getStock(request), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/get-all-stocks")
+    @ApiOperation(value = "Add stock", httpMethod = "GET", response = GetAllStocksResponse.class)
+    public ResponseEntity<GetAllStocksResponse> getAllStocks() {
+        return new ResponseEntity<>(stockService.getAllStocks(), HttpStatus.OK);
     }
 
 }

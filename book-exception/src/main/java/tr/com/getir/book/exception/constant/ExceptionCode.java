@@ -8,7 +8,9 @@ public enum ExceptionCode implements IExceptionCode {
     ADDRESS_NOT_FOUND("GB-0003", "Address not found"),
     CUSTOMER_ID_NOT_FOUND("GB-0004", "Customer id not found"),
     PRODUCT_NOT_FOUND("GB-0005", "Product id not found"),
-    PRODUCT_ID_NOT_FOUND("GB-0006", "Product not found");
+    PRODUCT_ID_NOT_FOUND("GB-0006", "Product not found"),
+    STOCK_NOT_FOUND("GB-0007", "Stock id not found"),
+    INSUFFICIENT_STOCK("GB-0008", "Insufficient Stock");
 
     private String code;
     private String message;
