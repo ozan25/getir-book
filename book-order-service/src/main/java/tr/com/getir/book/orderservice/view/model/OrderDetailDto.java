@@ -12,7 +12,7 @@ import java.io.Serial;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "OrderDetailDto", description = "Order detail object")
 public class OrderDetailDto extends AuditingDto {
 

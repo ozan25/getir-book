@@ -9,7 +9,7 @@ import tr.com.getir.book.commondomain.AuditingEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @Document(collection = "orderDetail")
 public class OrderDetail extends AuditingEntity {
 

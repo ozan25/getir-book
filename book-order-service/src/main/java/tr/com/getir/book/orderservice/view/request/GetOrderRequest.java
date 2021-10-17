@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "GetOrderRequest", description = "Request object for get order service")
 public class GetOrderRequest implements Serializable {
 

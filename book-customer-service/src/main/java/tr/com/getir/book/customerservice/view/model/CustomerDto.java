@@ -13,7 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "CustomerDto", description = "Customer object")
 public class CustomerDto extends AuditingDto {
 

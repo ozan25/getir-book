@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "DeleteAddressResponse", description = "Response object for delete address service")
 public class DeleteAddressResponse implements Serializable {
 

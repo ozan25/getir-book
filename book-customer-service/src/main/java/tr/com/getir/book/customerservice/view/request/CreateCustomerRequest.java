@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "CreateCustomerRequest", description = "Request object for create customer service")
 public class CreateCustomerRequest implements Serializable {
 

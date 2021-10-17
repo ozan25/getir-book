@@ -6,19 +6,16 @@ import org.springframework.stereotype.Service;
 import tr.com.getir.book.exception.BusinessException;
 import tr.com.getir.book.exception.constant.ExceptionCode;
 import tr.com.getir.book.productdomain.entity.Stock;
-import tr.com.getir.book.productdomain.repository.ProductRepository;
 import tr.com.getir.book.productdomain.repository.StockRepository;
 import tr.com.getir.book.productservice.converter.StockConverter;
 import tr.com.getir.book.productservice.service.IStockService;
 import tr.com.getir.book.productservice.validation.IProductValidation;
 import tr.com.getir.book.productservice.validation.IStockValidation;
 import tr.com.getir.book.productservice.view.request.AddStockRequest;
+import tr.com.getir.book.productservice.view.request.DeliveryToWarehouseRequest;
 import tr.com.getir.book.productservice.view.request.GetStockRequest;
 import tr.com.getir.book.productservice.view.request.WarehouseToDeliveryRequest;
-import tr.com.getir.book.productservice.view.response.AddStockResponse;
-import tr.com.getir.book.productservice.view.response.GetAllStocksResponse;
-import tr.com.getir.book.productservice.view.response.GetStockResponse;
-import tr.com.getir.book.productservice.view.response.WarehouseToDeliveryResponse;
+import tr.com.getir.book.productservice.view.response.*;
 import tr.com.getir.book.util.Util;
 
 import java.util.List;
@@ -86,5 +83,17 @@ public class StockService implements IStockService {
         stock.setOnDeliveryCount(stock.getOnDeliveryCount() + request.getNumberOfProducts());
         repository.save(stock);
         return new WarehouseToDeliveryResponse(converter.toDto(stock));
+    }
+
+    @Override
+    public DeliveryToWarehouseResponse deliveryToWarehouse(DeliveryToWarehouseRequest request) {
+        productValidation.validateProduct(request.getProductId());
+        Stock stock = repository.findByProductId(request.getProductId()).orElse(null);
+        validation.validateStock(stock);
+        stock.setInWarehouseCount((Util.isNotEmpty(stock.getInWarehouseCount()) ? stock.getInWarehouseCount() : 0l) +
+                request.getNumberOfProducts());
+        stock.setOnDeliveryCount(stock.getOnDeliveryCount() - request.getNumberOfProducts());
+        repository.save(stock);
+        return new DeliveryToWarehouseResponse(converter.toDto(stock));
     }
 }

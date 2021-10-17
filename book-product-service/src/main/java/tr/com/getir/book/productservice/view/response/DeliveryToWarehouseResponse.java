@@ -13,12 +13,12 @@ import java.io.Serializable;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value = "AddStockResponse", description = "Response object for add stock service")
-public class AddStockResponse implements Serializable {
+@ApiModel(value = "WarehouseToDeliveryResponse", description = "Response object for warehouse to delivery service")
+public class DeliveryToWarehouseResponse implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 2761216389982920568L;
+    private static final long serialVersionUID = -390128686873499423L;
 
-    @ApiModelProperty(value = "stock", dataType = "StockDto")
-    StockDto stock;
+    @ApiModelProperty(value = "stocks", dataType = "StockDto")
+    StockDto stocks;
 }

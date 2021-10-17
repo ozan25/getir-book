@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "UpdateCustomerRequest", description = "Request object for update customer service")
 public class UpdateCustomerRequest implements Serializable {
 

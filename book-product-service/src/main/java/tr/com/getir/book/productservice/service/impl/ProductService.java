@@ -8,7 +8,6 @@ import tr.com.getir.book.exception.RequestException;
 import tr.com.getir.book.exception.constant.ExceptionCode;
 import tr.com.getir.book.productdomain.entity.Product;
 import tr.com.getir.book.productdomain.repository.ProductRepository;
-import tr.com.getir.book.productdomain.repository.dao.IProductDao;
 import tr.com.getir.book.productservice.converter.ProductConverter;
 import tr.com.getir.book.productservice.service.IProductService;
 import tr.com.getir.book.productservice.view.request.CreateProductRequest;
@@ -25,20 +24,17 @@ import java.util.List;
 public class ProductService implements IProductService {
 
     @Autowired
-    private ProductConverter productConverter;
+    private ProductConverter converter;
 
     @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private IProductDao productDao;
+    private ProductRepository repository;
 
     @Override
     public CreateProductResponse createProduct(CreateProductRequest request) {
-        Product product = productConverter.toEntity(request.getProduct());
-        productDao.insert(product);
+        Product product = converter.toEntity(request.getProduct());
+        repository.save(product);
         CreateProductResponse response = new CreateProductResponse();
-        response.setProduct(productConverter.toDto(product));
+        response.setProduct(converter.toDto(product));
         return response;
     }
 
@@ -47,46 +43,46 @@ public class ProductService implements IProductService {
         if (Util.isEmpty(request.getProduct().getId())) {
             throw new RequestException(ExceptionCode.PRODUCT_ID_NOT_FOUND);
         }
-        Product originalProduct = productRepository.findById(request.getProduct().getId()).orElse(null);
+        Product originalProduct = repository.findById(request.getProduct().getId()).orElse(null);
         if (Util.isEmpty(originalProduct)) {
             throw new BusinessException(ExceptionCode.PRODUCT_NOT_FOUND);
         }
-        Product product = productConverter.toEntity(request.getProduct());
-        productDao.update(product);
+        Product product = converter.toEntity(request.getProduct());
+        repository.save(product);
         UpdateProductResponse response = new UpdateProductResponse();
-        response.setProduct(productConverter.toDto(product));
+        response.setProduct(converter.toDto(product));
         return response;
     }
 
     @Override
     public DeleteProductResponse deleteProduct(DeleteProductRequest request) {
-        Product originalProduct = productRepository.findById(request.getProductId()).orElse(null);
+        Product originalProduct = repository.findById(request.getProductId()).orElse(null);
         if (Util.isEmpty(originalProduct)) {
             throw new BusinessException(ExceptionCode.PRODUCT_NOT_FOUND);
         }
-        productDao.delete(originalProduct);
+        repository.delete(originalProduct);
         return new DeleteProductResponse();
     }
 
     @Override
     public GetProductResponse getProduct(GetProductRequest request) {
-        Product product = productRepository.findById(request.getProductId()).orElse(null);
+        Product product = repository.findById(request.getProductId()).orElse(null);
         if (Util.isEmpty(product)) {
             throw new BusinessException(ExceptionCode.PRODUCT_NOT_FOUND);
         }
         GetProductResponse response = new GetProductResponse();
-        response.setProduct(productConverter.toDto(product));
+        response.setProduct(converter.toDto(product));
         return response;
     }
 
     @Override
     public GetAllProductsResponse getAllProducts() {
-        List<Product> products = productRepository.findAll();
+        List<Product> products = repository.findAll();
         if (Util.isEmpty(products)) {
             throw new BusinessException(ExceptionCode.PRODUCT_NOT_FOUND);
         }
         GetAllProductsResponse response = new GetAllProductsResponse();
-        response.setProducts(productConverter.toDtoList(products));
+        response.setProducts(converter.toDtoList(products));
         return response;
     }
 }

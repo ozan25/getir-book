@@ -13,7 +13,7 @@ import java.io.Serializable;
 @ToString
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "WarehouseToDeliveryRequest", description = "Request object for warehouse to delivery service")
-public class WarehouseToDeliveryRequest implements Serializable {
+public class DeliveryToWarehouseRequest implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -6583052545608008856L;

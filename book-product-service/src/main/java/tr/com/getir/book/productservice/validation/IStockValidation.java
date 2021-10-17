@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import tr.com.getir.book.productdomain.entity.Stock;
 import tr.com.getir.book.productservice.view.model.StockDto;
 
-@Service
 public interface IStockValidation {
 
     Stock validateStock(final String stockId);

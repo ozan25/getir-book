@@ -1,6 +1,7 @@
 package tr.com.getir.book.productservice.validation.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import tr.com.getir.book.exception.BusinessException;
 import tr.com.getir.book.exception.RequestException;
 import tr.com.getir.book.exception.constant.ExceptionCode;
@@ -10,6 +11,7 @@ import tr.com.getir.book.productservice.validation.IProductValidation;
 import tr.com.getir.book.productservice.view.model.ProductDto;
 import tr.com.getir.book.util.Util;
 
+@Component
 public class ProductValidation implements IProductValidation {
 
     @Autowired

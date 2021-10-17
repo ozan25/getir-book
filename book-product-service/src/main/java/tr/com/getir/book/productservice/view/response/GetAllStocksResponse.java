@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "GetAllStocksResponse", description = "Response object for get all stocks service")
 public class GetAllStocksResponse implements Serializable {
 

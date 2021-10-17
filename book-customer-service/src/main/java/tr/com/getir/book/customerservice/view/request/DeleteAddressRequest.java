@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "DeleteAddressRequest", description = "Request object for delete address service")
 public class DeleteAddressRequest implements Serializable {
 

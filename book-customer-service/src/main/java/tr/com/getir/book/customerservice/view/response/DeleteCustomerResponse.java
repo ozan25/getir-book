@@ -9,9 +9,8 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "DeleteCustomerResponse", description = "Response object for delete customer service")
 public class DeleteCustomerResponse implements Serializable {
 
