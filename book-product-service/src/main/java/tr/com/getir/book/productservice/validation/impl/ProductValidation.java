@@ -8,7 +8,6 @@ import tr.com.getir.book.exception.constant.ExceptionCode;
 import tr.com.getir.book.productdomain.entity.Product;
 import tr.com.getir.book.productdomain.repository.ProductRepository;
 import tr.com.getir.book.productservice.validation.IProductValidation;
-import tr.com.getir.book.productservice.view.model.ProductDto;
 import tr.com.getir.book.util.Util;
 
 @Component
@@ -29,19 +28,4 @@ public class ProductValidation implements IProductValidation {
         return product;
     }
 
-    @Override
-    public ProductDto validateProduct(ProductDto productDto) {
-        if (Util.isEmpty(productDto)) {
-            throw new RequestException(ExceptionCode.PRODUCT_NOT_FOUND);
-        }
-        return productDto;
-    }
-
-    @Override
-    public Product validateProduct(Product product) {
-        if (Util.isEmpty(product)) {
-            throw new RequestException(ExceptionCode.PRODUCT_NOT_FOUND);
-        }
-        return product;
-    }
 }

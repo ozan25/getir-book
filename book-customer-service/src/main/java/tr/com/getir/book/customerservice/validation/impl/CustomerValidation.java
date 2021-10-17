@@ -37,11 +37,4 @@ public class CustomerValidation implements ICustomerValidation {
         return customerDto;
     }
 
-    @Override
-    public Customer validateCustomer(Customer customer) {
-        if (Util.isEmpty(customer)) {
-            throw new RequestException(ExceptionCode.CUSTOMER_NOT_FOUND);
-        }
-        return customer;
-    }
 }

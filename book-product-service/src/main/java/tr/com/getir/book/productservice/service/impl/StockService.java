@@ -11,10 +11,7 @@ import tr.com.getir.book.productservice.converter.StockConverter;
 import tr.com.getir.book.productservice.service.IStockService;
 import tr.com.getir.book.productservice.validation.IProductValidation;
 import tr.com.getir.book.productservice.validation.IStockValidation;
-import tr.com.getir.book.productservice.view.request.AddStockRequest;
-import tr.com.getir.book.productservice.view.request.DeliveryToWarehouseRequest;
-import tr.com.getir.book.productservice.view.request.GetStockRequest;
-import tr.com.getir.book.productservice.view.request.WarehouseToDeliveryRequest;
+import tr.com.getir.book.productservice.view.request.*;
 import tr.com.getir.book.productservice.view.response.*;
 import tr.com.getir.book.util.Util;
 
@@ -41,13 +38,9 @@ public class StockService implements IStockService {
         productValidation.validateProduct(request.getProductId());
         Stock stock = repository.findByProductId(request.getProductId()).orElse(null);
         if (Util.isEmpty(stock)) {
-            stock = new Stock();
-            stock.setInWarehouseCount(request.getNumberOfProduct());
-            stock.setProductId(request.getProductId());
-            repository.save(stock);
+            stock = createNewStock(request.getProductId(), request.getNumberOfProduct());
         } else {
-            Long currentStockNumber = stock.getInWarehouseCount() != null ? stock.getInWarehouseCount() : 0l;
-            stock.setInWarehouseCount(currentStockNumber + request.getNumberOfProduct());
+            stock.setInWarehouseCount(getCurrentWarehouseStock(stock) + request.getNumberOfProduct());
             repository.save(stock);
         }
         return new AddStockResponse(converter.toDto(stock));
@@ -76,11 +69,11 @@ public class StockService implements IStockService {
         if (Util.isEmpty(stock) || Util.isEmpty(stock.getInWarehouseCount())) {
             throw new BusinessException(ExceptionCode.STOCK_NOT_FOUND);
         }
-        if ((stock.getInWarehouseCount() - request.getNumberOfProducts()) <= 0l) {
+        if ((stock.getInWarehouseCount() - request.getNumberOfProducts()) <= 0L) {
             throw new BusinessException(ExceptionCode.INSUFFICIENT_STOCK);
         }
         stock.setInWarehouseCount(stock.getInWarehouseCount() - request.getNumberOfProducts());
-        stock.setOnDeliveryCount(stock.getOnDeliveryCount() + request.getNumberOfProducts());
+        stock.setOnDeliveryCount(getCurrentDeliveryStock(stock) + request.getNumberOfProducts());
         repository.save(stock);
         return new WarehouseToDeliveryResponse(converter.toDto(stock));
     }
@@ -89,11 +82,47 @@ public class StockService implements IStockService {
     public DeliveryToWarehouseResponse deliveryToWarehouse(DeliveryToWarehouseRequest request) {
         productValidation.validateProduct(request.getProductId());
         Stock stock = repository.findByProductId(request.getProductId()).orElse(null);
-        validation.validateStock(stock);
-        stock.setInWarehouseCount((Util.isNotEmpty(stock.getInWarehouseCount()) ? stock.getInWarehouseCount() : 0l) +
-                request.getNumberOfProducts());
+        stock = validation.validateStock(stock);
+        stock.setInWarehouseCount(getCurrentWarehouseStock(stock) + request.getNumberOfProducts());
         stock.setOnDeliveryCount(stock.getOnDeliveryCount() - request.getNumberOfProducts());
         repository.save(stock);
         return new DeliveryToWarehouseResponse(converter.toDto(stock));
     }
+
+    @Override
+    public UpdateDeliveryStockResponse updateDeliveryStock(UpdateDeliveryStockRequest request) {
+        Stock stock = repository.findByProductId(request.getProductId()).orElse(null);
+        stock = validation.validateStock(stock);
+        if (Util.isEmpty(request.getSoldProductNumber()) || Util.isEmpty(stock.getOnDeliveryCount()) ||
+                request.getSoldProductNumber() > stock.getOnDeliveryCount()) {
+            throw new BusinessException(ExceptionCode.INSUFFICIENT_STOCK);
+        }
+        stock.setOnDeliveryCount(stock.getOnDeliveryCount() - request.getSoldProductNumber());
+        repository.save(stock);
+        return new UpdateDeliveryStockResponse(converter.toDto(stock));
+    }
+
+
+    private Long getCurrentWarehouseStock(Stock stock) {
+        if (Util.isNotEmpty(stock) && Util.isNotEmpty(stock.getInWarehouseCount())) {
+            return stock.getInWarehouseCount();
+        }
+        return 0L;
+    }
+
+    private Long getCurrentDeliveryStock(Stock stock) {
+        if (Util.isNotEmpty(stock) && Util.isNotEmpty(stock.getOnDeliveryCount())) {
+            return stock.getOnDeliveryCount();
+        }
+        return 0L;
+    }
+
+    private Stock createNewStock(String productId, Long numberOfProducts) {
+        Stock stock = new Stock();
+        stock.setInWarehouseCount(numberOfProducts);
+        stock.setProductId(productId);
+        repository.save(stock);
+        return stock;
+    }
+
 }

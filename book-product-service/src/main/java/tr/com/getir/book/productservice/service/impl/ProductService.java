@@ -4,12 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tr.com.getir.book.exception.BusinessException;
-import tr.com.getir.book.exception.RequestException;
 import tr.com.getir.book.exception.constant.ExceptionCode;
 import tr.com.getir.book.productdomain.entity.Product;
 import tr.com.getir.book.productdomain.repository.ProductRepository;
 import tr.com.getir.book.productservice.converter.ProductConverter;
 import tr.com.getir.book.productservice.service.IProductService;
+import tr.com.getir.book.productservice.validation.impl.ProductValidation;
 import tr.com.getir.book.productservice.view.request.CreateProductRequest;
 import tr.com.getir.book.productservice.view.request.DeleteProductRequest;
 import tr.com.getir.book.productservice.view.request.GetProductRequest;
@@ -29,50 +29,35 @@ public class ProductService implements IProductService {
     @Autowired
     private ProductRepository repository;
 
+    @Autowired
+    private ProductValidation validation;
+
     @Override
     public CreateProductResponse createProduct(CreateProductRequest request) {
         Product product = converter.toEntity(request.getProduct());
         repository.save(product);
-        CreateProductResponse response = new CreateProductResponse();
-        response.setProduct(converter.toDto(product));
-        return response;
+        return new CreateProductResponse(converter.toDto(product));
     }
 
     @Override
     public UpdateProductResponse updateProduct(UpdateProductRequest request) {
-        if (Util.isEmpty(request.getProduct().getId())) {
-            throw new RequestException(ExceptionCode.PRODUCT_ID_NOT_FOUND);
-        }
-        Product originalProduct = repository.findById(request.getProduct().getId()).orElse(null);
-        if (Util.isEmpty(originalProduct)) {
-            throw new BusinessException(ExceptionCode.PRODUCT_NOT_FOUND);
-        }
+        validation.validateProduct(request.getProduct().getId());
         Product product = converter.toEntity(request.getProduct());
         repository.save(product);
-        UpdateProductResponse response = new UpdateProductResponse();
-        response.setProduct(converter.toDto(product));
-        return response;
+        return new UpdateProductResponse(converter.toDto(product));
     }
 
     @Override
     public DeleteProductResponse deleteProduct(DeleteProductRequest request) {
-        Product originalProduct = repository.findById(request.getProductId()).orElse(null);
-        if (Util.isEmpty(originalProduct)) {
-            throw new BusinessException(ExceptionCode.PRODUCT_NOT_FOUND);
-        }
-        repository.delete(originalProduct);
+        Product product = validation.validateProduct(request.getProductId());
+        repository.delete(product);
         return new DeleteProductResponse();
     }
 
     @Override
     public GetProductResponse getProduct(GetProductRequest request) {
-        Product product = repository.findById(request.getProductId()).orElse(null);
-        if (Util.isEmpty(product)) {
-            throw new BusinessException(ExceptionCode.PRODUCT_NOT_FOUND);
-        }
-        GetProductResponse response = new GetProductResponse();
-        response.setProduct(converter.toDto(product));
-        return response;
+        Product product = validation.validateProduct(request.getProductId());
+        return new GetProductResponse(converter.toDto(product));
     }
 
     @Override
@@ -81,8 +66,6 @@ public class ProductService implements IProductService {
         if (Util.isEmpty(products)) {
             throw new BusinessException(ExceptionCode.PRODUCT_NOT_FOUND);
         }
-        GetAllProductsResponse response = new GetAllProductsResponse();
-        response.setProducts(converter.toDtoList(products));
-        return response;
+        return new GetAllProductsResponse(converter.toDtoList(products));
     }
 }

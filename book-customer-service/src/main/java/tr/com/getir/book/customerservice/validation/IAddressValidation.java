@@ -7,8 +7,4 @@ public interface IAddressValidation {
 
     Address validateAddress(final String addressId);
 
-    AddressDto validateAddress(final AddressDto addressDto);
-
-    Address validateAddress(final Address address);
-
 }

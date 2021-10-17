@@ -12,14 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tr.com.getir.book.orderservice.service.IOrderService;
-import tr.com.getir.book.orderservice.view.request.CancelOrdersRequest;
-import tr.com.getir.book.orderservice.view.request.CreateOrdersRequest;
-import tr.com.getir.book.orderservice.view.request.GetOrderRequest;
-import tr.com.getir.book.orderservice.view.request.GetOrdersOfCustomerRequest;
-import tr.com.getir.book.orderservice.view.response.CancelOrderResponse;
-import tr.com.getir.book.orderservice.view.response.CreateOrderResponse;
-import tr.com.getir.book.orderservice.view.response.GetOrderResponse;
-import tr.com.getir.book.orderservice.view.response.GetOrdersOfCustomerResponse;
+import tr.com.getir.book.orderservice.view.request.*;
+import tr.com.getir.book.orderservice.view.response.*;
 
 import javax.validation.Valid;
 
@@ -64,6 +58,15 @@ public class OrderController {
             @ApiParam(required = true, value = "Wrapped input fields for get orders of customer service")
                     GetOrdersOfCustomerRequest request) {
         return new ResponseEntity<>(orderService.getOrdersOfCustomer(request), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/complete-order", produces = "application/json", consumes = "application/json")
+    @ApiOperation(value = "Complete order", httpMethod = "POST", response = CompleteOrderResponse.class)
+    public ResponseEntity<CompleteOrderResponse> completeOrder(
+            @Valid @RequestBody
+            @ApiParam(required = true, value = "Wrapped input fields for complete order service")
+                    CompleteOrdersRequest request) {
+        return new ResponseEntity<>(orderService.completeOrder(request), HttpStatus.OK);
     }
 
 

@@ -82,7 +82,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/get-all-stocks")
-    @ApiOperation(value = "Add stock", httpMethod = "GET", response = GetAllStocksResponse.class)
+    @ApiOperation(value = "Get all stock", httpMethod = "GET", response = GetAllStocksResponse.class)
     public ResponseEntity<GetAllStocksResponse> getAllStocks() {
         return new ResponseEntity<>(stockService.getAllStocks(), HttpStatus.OK);
     }

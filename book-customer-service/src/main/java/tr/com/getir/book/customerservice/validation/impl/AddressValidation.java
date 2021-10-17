@@ -29,19 +29,4 @@ public class AddressValidation implements IAddressValidation {
         return address;
     }
 
-    @Override
-    public AddressDto validateAddress(AddressDto addressDto) {
-        if (Util.isEmpty(addressDto)) {
-            throw new RequestException(ExceptionCode.ADDRESS_NOT_FOUND);
-        }
-        return addressDto;
-    }
-
-    @Override
-    public Address validateAddress(Address address) {
-        if (Util.isEmpty(address)) {
-            throw new RequestException(ExceptionCode.ADDRESS_NOT_FOUND);
-        }
-        return address;
-    }
 }

@@ -8,7 +8,6 @@ import tr.com.getir.book.exception.constant.ExceptionCode;
 import tr.com.getir.book.orderdomain.entity.Order;
 import tr.com.getir.book.orderdomain.repository.OrderRepository;
 import tr.com.getir.book.orderservice.validation.IOrderValidation;
-import tr.com.getir.book.orderservice.view.model.OrderDto;
 import tr.com.getir.book.util.Util;
 
 @Component
@@ -25,22 +24,6 @@ public class OrderValidation implements IOrderValidation {
         Order order = repository.findById(orderId).orElse(null);
         if (Util.isEmpty(order)) {
             throw new BusinessException(ExceptionCode.ORDER_NOT_FOUND);
-        }
-        return order;
-    }
-
-    @Override
-    public OrderDto validateOrder(OrderDto orderDto) {
-        if (Util.isEmpty(orderDto)) {
-            throw new RequestException(ExceptionCode.ORDER_NOT_FOUND);
-        }
-        return orderDto;
-    }
-
-    @Override
-    public Order validateOrder(Order order) {
-        if (Util.isEmpty(order)) {
-            throw new RequestException(ExceptionCode.ORDER_NOT_FOUND);
         }
         return order;
     }

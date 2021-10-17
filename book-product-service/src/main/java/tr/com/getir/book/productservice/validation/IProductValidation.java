@@ -8,8 +8,4 @@ public interface IProductValidation {
 
     Product validateProduct(final String productId);
 
-    ProductDto validateProduct(final ProductDto productDto);
-
-    Product validateProduct(final Product product);
-
 }

@@ -9,6 +9,4 @@ public interface ICustomerValidation {
 
     CustomerDto validateCustomer(final CustomerDto customerDto);
 
-    Customer validateCustomer(final Customer customer);
-
 }

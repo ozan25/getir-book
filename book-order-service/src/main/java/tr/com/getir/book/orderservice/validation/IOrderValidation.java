@@ -8,7 +8,4 @@ public interface IOrderValidation {
 
     Order validateOrder(final String orderId);
 
-    OrderDto validateOrder(final OrderDto orderDto);
-
-    Order validateOrder(final Order order);
 }
