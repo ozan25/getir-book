@@ -20,6 +20,6 @@ public class GetCustomerRequest implements Serializable {
     private static final long serialVersionUID = 5622820067551104653L;
 
     @NotNull
-    @ApiModelProperty(value = "Customer name", dataType = "String", required = true, example = "Ozan")
-    private String customerName;
+    @ApiModelProperty(value = "Customer id", dataType = "String", required = true, example = "123456")
+    private String customerId;
 }

@@ -4,5 +4,9 @@ import tr.com.getir.book.customerdomain.entity.Customer;
 
 public interface CustomerDao {
 
-    public void insertData(Customer customer);
+    public void insert(Customer customer);
+
+    public void update(Customer customer);
+
+    public void delete(Customer customer);
 }

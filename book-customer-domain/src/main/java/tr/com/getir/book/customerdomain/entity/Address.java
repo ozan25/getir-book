@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import tr.com.getir.book.commondomain.AuditingEntity;
 
 @Data
@@ -15,8 +16,7 @@ import tr.com.getir.book.commondomain.AuditingEntity;
 public class Address extends AuditingEntity {
     @Id
     private String id;
-    @DBRef(lazy = true)
-    private Customer customer;
+    private String customerId;
     private String name;
     private String country;
     private String city;

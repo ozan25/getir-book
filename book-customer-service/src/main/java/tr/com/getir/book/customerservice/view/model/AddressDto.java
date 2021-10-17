@@ -20,6 +20,9 @@ public class AddressDto extends AuditingDto {
     @Serial
     private static final long serialVersionUID = -5506307750801784116L;
 
+    @ApiModelProperty(value = "Address id", dataType = "String")
+    private String id;
+
     @NotNull
     @ApiModelProperty(value = "Address name", dataType = "String", example = "Ev")
     private String name;

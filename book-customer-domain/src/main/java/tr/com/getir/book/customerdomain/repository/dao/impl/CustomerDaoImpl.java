@@ -13,7 +13,17 @@ public class CustomerDaoImpl implements CustomerDao {
     MongoTemplate mongoTemplate;
 
     @Override
-    public void insertData(Customer customer) {
+    public void insert(Customer customer) {
         mongoTemplate.insert(customer);
+    }
+
+    @Override
+    public void update(Customer customer) {
+        mongoTemplate.save(customer);
+    }
+
+    @Override
+    public void delete(Customer customer) {
+        mongoTemplate.remove(customer);
     }
 }

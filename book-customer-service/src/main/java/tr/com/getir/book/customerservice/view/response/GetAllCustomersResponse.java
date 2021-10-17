@@ -7,6 +7,7 @@ import tr.com.getir.book.customerservice.view.model.CustomerDto;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -14,11 +15,11 @@ import java.io.Serializable;
 @ToString
 @EqualsAndHashCode
 @ApiModel(value = "GetCustomerResponse", description = "Response object for get-customer service")
-public class GetCustomerResponse implements Serializable {
+public class GetAllCustomersResponse implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -4078012072830299449L;
 
-    @ApiModelProperty(value = "customer", dataType = "CustomerDto")
-    private CustomerDto customerDto;
+    @ApiModelProperty(value = "customer", dataType = "Customer Dto")
+    private List<CustomerDto> customers;
 }
