@@ -21,6 +21,8 @@ public class GetOrdersOfCustomerRequest implements Serializable {
     @NotNull
     private String customerId;
 
+    private String orderId;
+
     private String status;
 
 

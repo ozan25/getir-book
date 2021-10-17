@@ -20,6 +20,7 @@ dependencies {
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-parent:2.5.5'
 
+    implementation project(':book-order-service')
     implementation project(':book-customer-service')
     implementation project(':book-product-service')
     implementation project(':book-exception-handler')

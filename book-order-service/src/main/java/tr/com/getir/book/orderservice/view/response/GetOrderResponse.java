@@ -3,10 +3,12 @@ package tr.com.getir.book.orderservice.view.response;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import tr.com.getir.book.orderservice.view.model.OrderDetailDto;
 import tr.com.getir.book.orderservice.view.model.OrderDto;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,5 +22,8 @@ public class GetOrderResponse implements Serializable {
     private static final long serialVersionUID = 6824996459355576958L;
 
     @ApiModelProperty(value = "order", dataType = "OrderDto")
-    OrderDto order;
+    private OrderDto order;
+
+    @ApiModelProperty(value = "order details", dataType = "List<OrderDetailDto>")
+    private List<OrderDetailDto> orderDetails;
 }

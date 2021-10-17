@@ -19,6 +19,7 @@ import tr.com.getir.book.orderservice.converter.OrderConverter;
 import tr.com.getir.book.orderservice.converter.OrderDetailConverter;
 import tr.com.getir.book.orderservice.service.IOrderService;
 import tr.com.getir.book.orderservice.view.model.OrderDetailDto;
+import tr.com.getir.book.orderservice.view.model.OrderView;
 import tr.com.getir.book.orderservice.view.request.CancelOrdersRequest;
 import tr.com.getir.book.orderservice.view.request.CreateOrdersRequest;
 import tr.com.getir.book.orderservice.view.request.GetOrderRequest;
@@ -36,6 +37,7 @@ import tr.com.getir.book.util.Util;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -121,17 +123,61 @@ public class OrderService implements IOrderService {
         if (!OrderStatus.ON_DELIVERY.name().equals(order.getStatus())) {
             throw new BusinessException(ExceptionCode.ORDER_CAN_NOT_BE_CANCELED);
         }
-
-return null;
+        order.setStatus(OrderStatus.CANCELED.name());
+        orderRepository.save(order);
+        List<OrderDetail> orderDetails = orderDetailRepository.findByOrderId(order.getId()).orElse(null);
+        if (Util.isEmpty(orderDetails)) {
+            throw new BusinessException(ExceptionCode.ORDER_DETAILS_NOT_FOUND);
+        }
+        for (OrderDetail orderDetail : orderDetails) {
+            Stock stock = stockRepository.findByProductId(orderDetail.getProductId()).orElse(null);
+            stock.setOnDeliveryCount(stock.getOnDeliveryCount() - orderDetail.getNumberOfProduct());
+            stock.setInWarehouseCount(stock.getInWarehouseCount() + orderDetail.getNumberOfProduct());
+            stockRepository.save(stock);
+        }
+        return new CancelOrderResponse();
     }
 
     @Override
     public GetOrderResponse getOrder(GetOrderRequest request) {
-        return null;
+        Order order = orderRepository.findById(request.getOrderId()).orElse(null);
+        if (Util.isEmpty(order)) {
+            throw new BusinessException(ExceptionCode.ORDER_NOT_FOUND);
+        }
+        List<OrderDetail> orderDetails = orderDetailRepository.findByOrderId(request.getOrderId()).orElse(null);
+        if (Util.isEmpty(orderDetails)) {
+            throw new BusinessException(ExceptionCode.ORDER_DETAILS_NOT_FOUND);
+        }
+        GetOrderResponse response = new GetOrderResponse();
+        response.setOrder(orderConverter.toDto(order));
+        response.setOrderDetails(orderDetailConverter.toDtoList(orderDetails));
+        return response;
     }
 
     @Override
     public GetOrdersOfCustomerResponse getOrdersOfCustomer(GetOrdersOfCustomerRequest request) {
-        return null;
+        List<Order> orders = orderRepository.findByCustomerId(request.getCustomerId()).orElse(null);
+        if (Util.isEmpty(orders)) {
+            throw new BusinessException(ExceptionCode.ORDER_NOT_FOUND);
+        }
+        if (Util.isNotEmpty(request.getOrderId())) {
+            orders = orders.stream().filter(o -> request.getOrderId().equals(o.getId())).collect(Collectors.toList());
+        }
+        if (Util.isNotEmpty(request.getStatus())) {
+            orders = orders.stream().filter(o -> request.getStatus().equals(o.getStatus()))
+                    .collect(Collectors.toList());
+        }
+        List<OrderView> orderViews = new ArrayList<>();
+        for (Order order : orders) {
+            OrderView orderView = new OrderView();
+            orderView.setOrder(orderConverter.toDto(order));
+            List<OrderDetail> orderDetails = orderDetailRepository.findByOrderId(order.getId()).orElse(null);
+            if (Util.isEmpty(orderDetails)) {
+                throw new BusinessException(ExceptionCode.ORDER_DETAILS_NOT_FOUND);
+            }
+            orderView.setOrderDetails(orderDetailConverter.toDtoList(orderDetails));
+            orderViews.add(orderView);
+        }
+        return new GetOrdersOfCustomerResponse(orderViews);
     }
 }
