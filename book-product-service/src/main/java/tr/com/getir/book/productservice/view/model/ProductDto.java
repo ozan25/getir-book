@@ -40,6 +40,10 @@ public class ProductDto extends AuditingDto {
     private String author;
 
     @NotNull
+    @ApiModelProperty(value = "Price", dataType = "BigDecimal", example = "150.00")
+    private String price;
+
+    @NotNull
     @ApiModelProperty(value = "Detail", dataType = "String", example = "Algoritma kitabı")
     private String detail;
 }

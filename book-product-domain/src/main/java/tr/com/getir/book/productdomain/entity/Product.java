@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import tr.com.getir.book.commondomain.AuditingEntity;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,5 +22,6 @@ public class Product extends AuditingEntity {
     private String name;
     private String brand;
     private String author;
+    private BigDecimal price;
     private String detail;
 }

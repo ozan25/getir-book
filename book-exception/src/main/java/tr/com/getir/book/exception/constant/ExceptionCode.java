@@ -10,7 +10,10 @@ public enum ExceptionCode implements IExceptionCode {
     PRODUCT_NOT_FOUND("GB-0005", "Product id not found"),
     PRODUCT_ID_NOT_FOUND("GB-0006", "Product not found"),
     STOCK_NOT_FOUND("GB-0007", "Stock id not found"),
-    INSUFFICIENT_STOCK("GB-0008", "Insufficient Stock");
+    INSUFFICIENT_STOCK("GB-0008", "Insufficient Stock"),
+    ORDER_ID_NOT_FOUND("GB-0009", "Order id not found"),
+    ORDER_NOT_FOUND("GB-0010", "Order not found"),
+    ORDER_CAN_NOT_BE_CANCELED("GB-0011", "The order can not be canceled");
 
     private String code;
     private String message;
