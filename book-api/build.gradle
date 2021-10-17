@@ -21,6 +21,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-parent:2.5.5'
 
     implementation project(':book-customer-service')
+    implementation project(':book-product-service')
     implementation project(':book-exception-handler')
     implementation project(':book-util')
 

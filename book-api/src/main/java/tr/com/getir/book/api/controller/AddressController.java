@@ -25,7 +25,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/address-api")
-@Api(tags = {"Address services"})
+@Api(tags = {"Address API"})
 @Slf4j
 public class AddressController {
 

@@ -6,7 +6,9 @@ public enum ExceptionCode implements IExceptionCode {
     CUSTOMER_NOT_FOUND("GB-0001", "Customer not found"),
     ADDRESS_ID_NOT_FOUND("GB-0002", "Address id not found"),
     ADDRESS_NOT_FOUND("GB-0003", "Address not found"),
-    CUSTOMER_ID_NOT_FOUND("GB-0004", "Customer id not found");
+    CUSTOMER_ID_NOT_FOUND("GB-0004", "Customer id not found"),
+    PRODUCT_NOT_FOUND("GB-0005", "Product id not found"),
+    PRODUCT_ID_NOT_FOUND("GB-0006", "Product not found");
 
     private String code;
     private String message;

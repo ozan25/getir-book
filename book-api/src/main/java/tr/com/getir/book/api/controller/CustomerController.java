@@ -19,7 +19,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/customer-api")
-@Api(tags = {"Customer services"})
+@Api(tags = {"Customer API"})
 @Slf4j
 public class CustomerController {
 

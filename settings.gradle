@@ -8,4 +8,5 @@ include 'book-exception'
 include 'book-exception-handler'
 include 'book-common-domain'
 include 'book-common-service'
-
+include 'book-product-domain'
+include 'book-product-service'
