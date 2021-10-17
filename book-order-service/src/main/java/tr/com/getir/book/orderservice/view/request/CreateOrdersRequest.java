@@ -1,6 +1,7 @@
 package tr.com.getir.book.orderservice.view.request;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import tr.com.getir.book.orderservice.view.model.OrderDetailDto;
 
@@ -24,9 +25,11 @@ public class CreateOrdersRequest implements Serializable {
     private List<OrderDetailDto> orderDetails;
 
     @NotNull
+    @ApiModelProperty(value = "Customer id", dataType = "String", example = "616c5ca24f917a7f15709638")
     private String customerId;
 
     @NotNull
+    @ApiModelProperty(value = "Address id", dataType = "String", example = "616c9ad48014af064526ac9b")
     private String addressId;
 
 

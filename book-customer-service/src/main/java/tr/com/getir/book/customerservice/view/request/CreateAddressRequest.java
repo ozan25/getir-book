@@ -1,6 +1,7 @@
 package tr.com.getir.book.customerservice.view.request;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import tr.com.getir.book.customerservice.view.model.AddressDto;
 
@@ -20,6 +21,7 @@ public class CreateAddressRequest implements Serializable {
     private static final long serialVersionUID = -6609648939065898834L;
 
     @NotNull
+    @ApiModelProperty(value = "Customer id", dataType = "String", example="616c5ca24f917a7f15709638")
     private String customerId;
 
     @NotNull

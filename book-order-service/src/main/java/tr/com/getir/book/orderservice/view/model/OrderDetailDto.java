@@ -20,22 +20,22 @@ public class OrderDetailDto extends AuditingDto {
     @Serial
     private static final long serialVersionUID = 7044298171541408940L;
 
-    @ApiModelProperty(value = "Order detail id", dataType = "String")
+    @ApiModelProperty(value = "Order detail id", dataType = "String", hidden = true)
     private String id;
 
     @NotNull
-    @ApiModelProperty(value = "Order id", dataType = "String")
+    @ApiModelProperty(value = "Order id", dataType = "String", hidden = true)
     private String orderId;
 
     @NotNull
-    @ApiModelProperty(value = "product id", dataType = "String")
+    @ApiModelProperty(value = "product id", dataType = "String", example = "616c3f8ba44b0a7e5b304d39")
     private String productId;
 
     @NotNull
-    @ApiModelProperty(value = "Number of product", dataType = "Long")
+    @ApiModelProperty(value = "Number of product", dataType = "Long", example = "2")
     private Long numberOfProduct;
 
     @NotNull
-    @ApiModelProperty(value = "total price", dataType = "BigDecimal")
+    @ApiModelProperty(value = "total price", dataType = "BigDecimal", example = "250")
     private BigDecimal totalPrice;
 }

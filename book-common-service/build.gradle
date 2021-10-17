@@ -37,11 +37,3 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-
-sourceSets {
-    test {
-        java {
-            srcDir "src/test/architecture"
-        }
-    }
-}

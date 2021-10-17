@@ -44,7 +44,7 @@ public class OrderController {
     }
 
     @PostMapping(value = "/get-order", produces = "application/json", consumes = "application/json")
-    @ApiOperation(value = "Delete order", httpMethod = "POST", response = GetOrderResponse.class)
+    @ApiOperation(value = "Get order", httpMethod = "POST", response = GetOrderResponse.class)
     public ResponseEntity<GetOrderResponse> getOrder(
             @Valid @RequestBody @ApiParam(required = true, value = "Wrapped input fields for get order service")
                     GetOrderRequest request) {

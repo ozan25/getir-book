@@ -20,7 +20,7 @@ public class CustomerDto extends AuditingDto {
     @Serial
     private static final long serialVersionUID = 5622820067551104653L;
 
-    @ApiModelProperty(value = "Customer id", dataType = "String", example = "123456")
+    @ApiModelProperty(value = "Customer id", dataType = "String", hidden = true)
     private String id;
 
     @NotNull

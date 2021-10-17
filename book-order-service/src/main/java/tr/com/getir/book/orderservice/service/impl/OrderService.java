@@ -17,7 +17,6 @@ import tr.com.getir.book.orderservice.converter.OrderConverter;
 import tr.com.getir.book.orderservice.converter.OrderDetailConverter;
 import tr.com.getir.book.orderservice.service.IOrderService;
 import tr.com.getir.book.orderservice.validation.IOrderDetailValidation;
-import tr.com.getir.book.orderservice.validation.IOrderValidation;
 import tr.com.getir.book.orderservice.validation.impl.OrderValidation;
 import tr.com.getir.book.orderservice.view.model.OrderDetailDto;
 import tr.com.getir.book.orderservice.view.model.OrderView;
@@ -27,7 +26,6 @@ import tr.com.getir.book.productservice.service.IStockService;
 import tr.com.getir.book.productservice.view.request.DeliveryToWarehouseRequest;
 import tr.com.getir.book.productservice.view.request.UpdateDeliveryStockRequest;
 import tr.com.getir.book.productservice.view.request.WarehouseToDeliveryRequest;
-import tr.com.getir.book.util.DateUtil;
 import tr.com.getir.book.util.Util;
 
 import java.util.ArrayList;

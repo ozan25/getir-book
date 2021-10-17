@@ -19,7 +19,7 @@ public class StockDto extends AuditingDto {
     @Serial
     private static final long serialVersionUID = 4994669794887564006L;
 
-    @ApiModelProperty(value = "Stock id", dataType = "String")
+    @ApiModelProperty(value = "Stock id", dataType = "String", hidden = true)
     private String id;
 
     @NotNull

@@ -1,6 +1,7 @@
 package tr.com.getir.book.orderservice.view.request;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ public class GetOrderRequest implements Serializable {
     private static final long serialVersionUID = 8032242670529109004L;
 
     @NotNull
+    @ApiModelProperty(value = "Order id", dataType = "String", example = "616c4750b61d6f7595e25346")
     private String orderId;
 
 
